@@ -26,20 +26,9 @@ var server = http.createServer(function(req, res) {
     if (req.method == 'GET') {
         console.log("GET Method");
         flag = 1;
-        fs.exists(file, function(exists) {
-           if (exists) {
-               fs.stat(file, function(error, stats) {
-                   fs.readFile(file, 'utf-8', function(err, data){
-                       console.log(JSON.parse(data));
-                        send(res, JSON.parse(data));
-                   });
-                });
-           } else {
-                data['info'] = "IBeacon not registered";
+               data['info'] = "IBeacon not registered";
                console.log("file doesn't exists" + data);
                send(res, data);
-           }
-       });
     } else if (req.method == 'PUT') {
         console.log("PUT Method "+ file + ", " + req.headers['ip']);
         parse_header(req.headers, data);
@@ -55,4 +44,4 @@ var server = http.createServer(function(req, res) {
         console.log(data);
         send(res, data);
     }
-}).listen(8080, '128.97.93.163');
+}).listen(8080, '127.0.0.1');
