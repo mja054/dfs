@@ -1,7 +1,8 @@
-import http.client
+import urllib2
 import json
 
-SERVER_URL = '127.0.0.1:8080'
+SERVER_URL = 'http://128.97.93.163:8080'
+#SERVER_URL = 'http://127.0.0.1:8080'
 
 """
 Creates the connection object based on requestCode,
@@ -9,17 +10,18 @@ requestName and the body.
 Body is a json encoded string.
 Makes the request and returns the response.
 """
-def makeRequest(requestCode, requestName, body):
-    connection = http.client.HTTPSConnection(SERVER_URL)
+def makeRequest(requestCode, requestName, body=None):
     headers = {'Content-type':'application/json'}
+    request = urllib2.Request(SERVER_URL, body, headers)
+    
     """
     encode json like this
     foo = {'text' : 'Hello World github/linguist#1 **cool**, and #1!' }
     json_foo = json.dumps(foo)
     """
     #HTTPConnection.request(method, url[, body[, headers]])
-    connection.request('POST', '', body,headers)
-    response = connection.getresponse()
+    #connection.request('POST', '', body,headers)
+    response = urllib2.urlopen(request)
     #For debugging
     print(response.read().decode()) 
     return response
@@ -63,3 +65,4 @@ def listContent(path):
     response = makeRequest(requestCode, requestName, pathJson)
     #TODO - process response
 
+getUsers()
